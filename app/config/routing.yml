@@ -1,0 +1,4 @@
+mundoreader_calendar:
+    resource: "@MundoreaderCalendarBundle/Resources/config/routing.yml"
+    prefix:   /
+

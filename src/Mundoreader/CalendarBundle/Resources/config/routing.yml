@@ -1,3 +1,12 @@
 mundoreader_calendar_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: MundoreaderCalendarBundle:Default:index }
+    pattern: /calendar/{calendarId}
+    defaults: { _controller: "MundoreaderCalendarBundle:Default:index", calendarId: null }
+    requirements:
+        calendarId: -?\d+
+
+mundoreader_calendar_homepage_reroute:
+    pattern: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: mundoreader_calendar_homepage
+        permanent: true

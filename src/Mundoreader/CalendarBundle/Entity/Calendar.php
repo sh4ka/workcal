@@ -24,7 +24,7 @@ class Calendar
     /**
      * @var string
      *
-     * @ORM\Column(name="calendarId", type="string", length=23)
+     * @ORM\Column(name="calendarId", type="string", length=32)
      */
     private $calendarId;
 

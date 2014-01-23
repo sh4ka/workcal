@@ -2,7 +2,7 @@ mundoreader_calendar_homepage:
     pattern: /calendar/{calendarId}
     defaults: { _controller: "MundoreaderCalendarBundle:Default:index", calendarId: null }
     requirements:
-        calendarId: -?\d+
+        calendarId: -?\w+
 
 mundoreader_calendar_homepage_reroute:
     pattern: /
@@ -10,3 +10,7 @@ mundoreader_calendar_homepage_reroute:
         _controller: FrameworkBundle:Redirect:redirect
         route: mundoreader_calendar_homepage
         permanent: true
+
+mundoreader_calendar_user_create:
+    path:     /user/create
+    defaults: { _controller: MundoreaderCalendarBundle:User:create }

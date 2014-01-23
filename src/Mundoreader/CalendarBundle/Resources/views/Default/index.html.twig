@@ -1,1 +1,7 @@
-Hello mundoreader!
+<h1>Hello bq minion!</h1>
+{% if user is empty %}
+<h2>Crea tu usuario:</h2>
+{{ form(form) }}
+{% else %}
+crea tu calendario
+{% endif %}

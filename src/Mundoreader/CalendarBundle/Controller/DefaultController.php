@@ -10,11 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class DefaultController extends Controller
 {
     public function indexAction(Request $request, $calendarId=null)
     {
+        $session = $request->getSession();
         $cookies = $request->cookies->all();
         if($calendarId == null && empty($cookies['cid'])) {
             // create a new calendar id, there should not be another with this id
@@ -47,6 +49,10 @@ class DefaultController extends Controller
                 $uid = $cookies['uid'];
                 $repository = $this->getDoctrine()->getRepository('MundoreaderCalendarBundle:User');
                 $user = $repository->findOneBy(array('uid' => $uid));
+                if(!empty($user)){
+                    // save email in session
+                    $session->set('userEmail', $user->getEmail());
+                }
             } else {
                 // create a new uid
                 $uid = md5(time().$this->container->getParameter('secret'));

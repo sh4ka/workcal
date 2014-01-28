@@ -28,15 +28,32 @@ class UserController extends Controller {
             $form = $this->createForm(new UserType(), new User());
             $form->handleRequest($request);
             if ($form->isValid()) {
-                $user = $form->getData();
-                $user->setUid($uid);
+                //  find user with this email
+                $repository = $this->getDoctrine()->getRepository('MundoreaderCalendarBundle:User');
+                $user = $repository->findOneBy(array('email' => $form->getData()->getEmail()));
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($user);
+                if(!empty($user)){
+                    // user exists, update
+                    $user->setUid($uid);
+                } else {
+                    // new user, create
+                    $user = $form->getData();
+                    $user->setUid($uid);
+                    $em->persist($user);
+                }
                 $em->flush();
                 return $this->redirect($this->generateUrl('mundoreader_calendar_homepage', array('calendarId' => $cid)));
             } else {
                 throw new Exception('Invalid form');
             }
         }
+    }
+
+    public function find(){
+        $request = $this->container->get('request');
+        $data1 = $request->query->get('data1');
+        $data2 = $request->query->get('data2');
+        $response = array("code" => 100, "success" => true);
+        return new Response(json_encode($response));
     }
 } 

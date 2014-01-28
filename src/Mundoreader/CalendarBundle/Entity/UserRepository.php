@@ -12,4 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserRepository extends EntityRepository
 {
+    public function getUsersWithoutDay(){
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT u FROM MundoreaderCalendarBundle:User u WHERE u.day is NULL'
+            );
+    }
 }

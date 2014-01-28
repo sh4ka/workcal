@@ -3,6 +3,7 @@
 namespace Mundoreader\CalendarBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Calendar
@@ -28,6 +29,16 @@ class Calendar
      */
     private $calendarId;
 
+
+    /**
+     * @ORM\OneToMany(targetEntity="Day", mappedBy="calendar")
+     */
+    protected $days;
+
+
+    public function __construct(){
+        $this->days = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -60,5 +71,38 @@ class Calendar
     public function getCalendarId()
     {
         return $this->calendarId;
+    }
+
+    /**
+     * Add days
+     *
+     * @param \Mundoreader\CalendarBundle\Entity\Day $days
+     * @return Calendar
+     */
+    public function addDay(\Mundoreader\CalendarBundle\Entity\Day $days)
+    {
+        $this->days[] = $days;
+
+        return $this;
+    }
+
+    /**
+     * Remove days
+     *
+     * @param \Mundoreader\CalendarBundle\Entity\Day $days
+     */
+    public function removeDay(\Mundoreader\CalendarBundle\Entity\Day $days)
+    {
+        $this->days->removeElement($days);
+    }
+
+    /**
+     * Get days
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDays()
+    {
+        return $this->days;
     }
 }

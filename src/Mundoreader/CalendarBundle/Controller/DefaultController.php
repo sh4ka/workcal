@@ -3,8 +3,10 @@
 namespace Mundoreader\CalendarBundle\Controller;
 
 use Mundoreader\CalendarBundle\Entity\Calendar;
+use Mundoreader\CalendarBundle\Entity\Day;
 use Mundoreader\CalendarBundle\Entity\User;
 use Mundoreader\CalendarBundle\Form\UserType;
+use Mundoreader\CalendarBundle\Form\DayType;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,9 +20,13 @@ class DefaultController extends Controller
     {
         $session = $request->getSession();
         $cookies = $request->cookies->all();
-        if($calendarId == null && empty($cookies['cid'])) {
-            // create a new calendar id, there should not be another with this id
-            $calendarId = md5(time().$this->container->getParameter('secret'));
+        if($calendarId == null) {
+            if(!empty($cookies['cid'])){
+                $calendarId = $cookies['cid'];
+            } else {
+                // create a new calendar id, there should not be another with this id
+                $calendarId = md5(time().$this->container->getParameter('secret').'c');
+            }
             // go to the new calendar page
             return $this->redirect($this->generateUrl('mundoreader_calendar_homepage', array('calendarId' => $calendarId)));
         } else {
@@ -35,11 +41,9 @@ class DefaultController extends Controller
             $repository = $this->getDoctrine()->getRepository('MundoreaderCalendarBundle:Calendar');
             $calendar = $repository->findOneBy(array('calendarId' => $calendarId));
             if($calendar == null){
-                // new calendar
-                // save a new calendar
-                $calendar = new Calendar();
-                $calendar->setCalendarId($calendarId);
                 $em = $this->getDoctrine()->getManager();
+                $calendar = new Calendar();
+                $calendar->setCalendarId($cid);
                 $em->persist($calendar);
                 $em->flush();
             }
@@ -57,13 +61,17 @@ class DefaultController extends Controller
                 // create a new uid
                 $uid = md5(time().$this->container->getParameter('secret'));
             }
-            $form = $this->createForm(new UserType(), $user, array(
+            $formUser = $this->createForm(new UserType(), $user, array(
                 'action' => $this->generateUrl('mundoreader_calendar_user_create'),
+            ));
+            $formDay = $this->createForm(new DayType(), new Day(), array(
+                'action' => $this->generateUrl('mundoreader_calendar_day_create'),
             ));
             $response = $this->render('MundoreaderCalendarBundle:Default:index.html.twig', array(
                 'calendar' => $calendar,
                 'user' => $user,
-                'form' => $form->createView()
+                'formUser' => $formUser->createView(),
+                'formDay' => $formDay->createView(),
             ));
             $response->headers->setCookie(new Cookie("uid", $uid));
             $response->headers->setCookie(new Cookie("cid", $cid));

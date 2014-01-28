@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" >
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar app</title>
+
+    <!-- If you are using CSS version, only link these 2 files, you may add app.css to use for your overrides if you like. -->
+    {% stylesheets '@MundoreaderCalendarBundle/Resources/public/css/*.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/1.6.4/fullcalendar.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/1.6.4/fullcalendar.print.css" />
+
+    <!-- If you are using the gem version, you need this only -->
+    {#<link rel="stylesheet" href="css/app.css">#}
+    {% javascripts
+        '@MundoreaderCalendarBundle/Resources/public/js/vendor/modernizr.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+</head>
+<body>
+
+{% block body %}{% endblock %}
+
+<script type="text/javascript" src="//code.jquery.com/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/1.6.4/fullcalendar.min.js"></script>
+{% javascripts
+'@MundoreaderCalendarBundle/Resources/public/js/foundation.min.js'
+'@MundoreaderCalendarBundle/Resources/public/js/main.js'
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+
+
+{% endjavascripts %}
+</body>
+</html>

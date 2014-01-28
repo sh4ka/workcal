@@ -1,7 +1,52 @@
-<h1>Hello bq minion!</h1>
-{% if user is empty %}
-<h2>Crea tu usuario:</h2>
-{{ form(form) }}
-{% else %}
-crea tu calendario
-{% endif %}
+{% extends 'MundoreaderCalendarBundle:Default:base.html.twig' %}
+{% block body %}
+    <!-- Nav Bar -->
+    <div class="row">
+        <div class="large-12 columns">
+            {#<div class="nav-bar right">
+                <ul class="button-group">
+                    <li><a href="#" class="button">Link 1</a></li>
+                    <li><a href="#" class="button">Link 2</a></li>
+                    <li><a href="#" class="button">Link 3</a></li>
+                    <li><a href="#" class="button">Link 4</a></li>
+                </ul>
+            </div>#}
+            <h1>Calendar <small>App</small></h1>
+            <hr />
+        </div>
+    </div>
+    <!-- End Nav -->
+    <!-- Main Page Content and Sidebar -->
+
+    <div class="row">
+        {% if user is empty %}
+            <div class="large-9 columns" role="content">
+                <article>
+                    <h3><a href="#">Quién eres?:</a></h3>
+                    {{ form(formUser) }}
+                </article>
+                <hr />
+            </div>
+            <!-- End Main Content -->
+        {% else %}
+            <div class="large-8 columns" role="content">
+                <article>
+                    <div id="calendar"></div>
+                </article>
+                <hr />
+            </div>
+            <div class="large-4 columns">
+                <h3>Cumpleaños</h3>
+                    {{ form_start(formDay, {'action': path('mundoreader_calendar_day_create'), 'method': 'POST'}) }}
+                    <div style="display: none">
+                        {{ form_row(formDay.date) }}
+                    </div>
+                    {{ form_errors(formDay) }}
+                    {{ form_rest(formDay) }}
+                    <input type="submit" value="Guardar" class="button confirm big"/>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+    <!-- End Main Content -->
+{% endblock %}

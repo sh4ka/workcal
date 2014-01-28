@@ -14,3 +14,19 @@ mundoreader_calendar_homepage_reroute:
 mundoreader_calendar_user_create:
     path:     /user/create
     defaults: { _controller: MundoreaderCalendarBundle:User:create }
+
+mundoreader_calendar_user_find_ajax:
+    path:     /user/find
+    defaults: { _controller: MundoreaderCalendarBundle:User:find }
+
+mundoreader_calendar_day_create:
+    path:     /day/save
+    defaults: { _controller: MundoreaderCalendarBundle:Day:create }
+
+mundoreader_calendar_day_get:
+    path:     /day/get
+    defaults: { _controller: MundoreaderCalendarBundle:Day:getDay }
+
+mundoreader_calendar_day_events:
+    path:     /day/events
+    defaults: { _controller: MundoreaderCalendarBundle:Day:getEvents }

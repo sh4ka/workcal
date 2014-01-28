@@ -19,7 +19,19 @@ class User
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=255, unique=true)
+     */
+    protected $email;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Day", inversedBy="user")
+     */
+    protected $day;
 
     /**
      * @var string
@@ -41,13 +53,6 @@ class User
      * @ORM\Column(name="surname", type="string", length=255)
      */
     private $surname;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255, unique=true)
-     */
-    private $email;
 
 
     /**
@@ -150,5 +155,33 @@ class User
     public function getEmail()
     {
         return $this->email;
+    }
+
+    public function __toString()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set day
+     *
+     * @param \Mundoreader\CalendarBundle\Entity\Day $day
+     * @return User
+     */
+    public function setDay(\Mundoreader\CalendarBundle\Entity\Day $day = null)
+    {
+        $this->day = $day;
+
+        return $this;
+    }
+
+    /**
+     * Get day
+     *
+     * @return \Mundoreader\CalendarBundle\Entity\Day 
+     */
+    public function getDay()
+    {
+        return $this->day;
     }
 }

@@ -13,6 +13,11 @@ use Doctrine\ORM\EntityRepository;
 
 class DayType extends AbstractType
 {
+    protected $calendar;
+
+    public function __construct($calendar){
+        $this->calendar = $calendar;
+    }
      /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -35,8 +40,8 @@ class DayType extends AbstractType
                     'property' => 'email',
                     'label' => 'Quién cumple',
                     'query_builder' => function(UserRepository $er) {
-                            //return $er->createQueryBuilder('u')->where('u.day is NULL');
-                            return $er->createQueryBuilder('u');
+                            return $er->createQueryBuilder('u')->where('u.calendar = ?1')->setParameter(1, $this->calendar);
+                            //return $er->createQueryBuilder('u');
                         },
                 );
                 $form->add('user', 'entity', $formOptions);

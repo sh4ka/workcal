@@ -50,25 +50,6 @@ $( document ).ready(function() {
         });
     }
 
-    var getEventsAjax = function(){
-        var $url = '/day/events';
-        calendarId = location.toString().split('/').pop();
-        $.ajax({
-            type: "POST",
-            url: $url,
-            data: {
-                calendarId: calendarId,
-                date: curDate
-            }
-        }).done(function( result ) {
-            if(result.success) {
-                return result.events;
-            } else {
-                return null;
-            }
-        });
-    }
-
     var removeClasses = function(){
         $('#calendar').find('.fc-day').removeClass('selectedDate');
         $('#calendar').find('.fc-day').removeClass('fc-today');
@@ -91,11 +72,6 @@ $( document ).ready(function() {
             {
                 url: '/day/events', // use the `url` property
                 type: 'POST',
-                data: function(){
-                    return {
-                        calendarId: location.toString().split('/').pop()
-                    };
-                },
                 color: 'yellow',    // an option!
                 textColor: 'black'  // an option!
             }

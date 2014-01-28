@@ -38,7 +38,7 @@ class Day
     }
 
     /**
-     * @ORM\OneToOne(targetEntity="User", mappedBy="day", cascade="persist")
+     * @ORM\OneToOne(targetEntity="User", inversedBy="day", cascade="persist")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     protected $user;

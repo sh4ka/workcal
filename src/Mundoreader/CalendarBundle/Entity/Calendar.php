@@ -35,9 +35,32 @@ class Calendar
      */
     protected $days;
 
+    /**
+     * @param mixed $users
+     */
+    public function setUsers($users)
+    {
+        $this->users = $users;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="User", mappedBy="calendar")
+     */
+    protected $users;
+
 
     public function __construct(){
         $this->days = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     /**

@@ -64,7 +64,7 @@ class DefaultController extends Controller
             $formUser = $this->createForm(new UserType(), $user, array(
                 'action' => $this->generateUrl('mundoreader_calendar_user_create'),
             ));
-            $formDay = $this->createForm(new DayType(), new Day(), array(
+            $formDay = $this->createForm(new DayType($calendar), new Day(), array(
                 'action' => $this->generateUrl('mundoreader_calendar_day_create'),
             ));
             $response = $this->render('MundoreaderCalendarBundle:Default:index.html.twig', array(

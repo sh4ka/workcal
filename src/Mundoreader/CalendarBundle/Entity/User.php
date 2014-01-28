@@ -2,6 +2,7 @@
 
 namespace Mundoreader\CalendarBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -29,9 +30,33 @@ class User
     protected $email;
 
     /**
-     * @ORM\OneToOne(targetEntity="Day", inversedBy="user")
+     * @ORM\OneToOne(targetEntity="Day", mappedBy="user")
+     * @ORM\JoinColumn(name="day_id", referencedColumnName="id")
      */
     protected $day;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Calendar", inversedBy="users")
+     * @ORM\JoinColumn(name="calendar_id", referencedColumnName="id")
+     */
+    protected $calendar;
+
+    /**
+     * @param mixed $calendar
+     */
+    public function setCalendar($calendar)
+    {
+        $this->calendar = $calendar;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCalendar()
+    {
+        return $this->calendar;
+    }
+
 
     /**
      * @var string

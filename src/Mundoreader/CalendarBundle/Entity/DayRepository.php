@@ -16,7 +16,7 @@ class DayRepository extends EntityRepository
     /**
      * @param $date DateTime Object
      */
-    public function getEventsByMonth($date1, $date2){
+    public function getEventsByMonth($date1, $date2, $calendar, $user){
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $dateFrom = $date1->modify('first day of this month');
@@ -24,11 +24,27 @@ class DayRepository extends EntityRepository
         $query = $qb->select('d')
             ->from('Mundoreader\CalendarBundle\Entity\Day', 'd')
             ->andWhere($qb->expr()->between('d.date', ':date_from', ':date_to'))
+            ->andWhere('d.calendar = :calendar')
+            ->andWhere('d.user != :user')
             ->setParameter('date_from', $dateFrom, \Doctrine\DBAL\Types\Type::DATETIME)
             ->setParameter('date_to', $dateTo, \Doctrine\DBAL\Types\Type::DATETIME)
+            ->setParameter('calendar', $calendar)
+            ->setParameter('user', $user)
             ->getQuery();
         $sql = $query->getSQL();
         $days = $query->execute();
         return $days;
+    }
+
+    public function clearUserId($user)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $query = $qb->delete('Mundoreader\CalendarBundle\Entity\Day d')
+            ->andWhere('d.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery();
+        $sql = $query->getSQL();
+        return $query->execute();
     }
 }

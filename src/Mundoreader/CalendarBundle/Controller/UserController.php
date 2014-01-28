@@ -31,14 +31,18 @@ class UserController extends Controller {
                 //  find user with this email
                 $repository = $this->getDoctrine()->getRepository('MundoreaderCalendarBundle:User');
                 $user = $repository->findOneBy(array('email' => $form->getData()->getEmail()));
+                $repository = $this->getDoctrine()->getRepository('MundoreaderCalendarBundle:Calendar');
+                $calendar = $repository->findOneBy(array('calendarId' => $cid));
                 $em = $this->getDoctrine()->getManager();
                 if(!empty($user)){
                     // user exists, update
                     $user->setUid($uid);
+                    $user->setCalendar($calendar);
                 } else {
                     // new user, create
                     $user = $form->getData();
                     $user->setUid($uid);
+                    $user->setCalendar($calendar);
                     $em->persist($user);
                 }
                 $em->flush();

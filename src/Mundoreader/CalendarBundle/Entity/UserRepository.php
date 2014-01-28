@@ -18,4 +18,17 @@ class UserRepository extends EntityRepository
                 'SELECT u FROM MundoreaderCalendarBundle:User u WHERE u.day is NULL'
             );
     }
+
+    public function clearUserId($user)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $query = $qb->update('Mundoreader\CalendarBundle\Entity\User u')
+            ->set('u.day', 'NULL')
+            ->andWhere('u.id = :userId')
+            ->setParameter('userId', $user->getId())
+            ->getQuery();
+        $sql = $query->getSQL();
+        return $query->execute();
+    }
 }
